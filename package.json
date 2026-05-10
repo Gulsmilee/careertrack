@@ -1,0 +1,31 @@
+{
+  "name": "dream-diary",
+  "version": "1.0.0",
+  "description": "Bu proje, Sistem Analizi ve Tasarımı dersi kapsamında geliştirilmiş, veri odaklı web tabanlı bir CRUD uygulamasıdır. Kullanıcıların gördükleri rüyaları kaydetmelerine, güncellemelerine, silmelerine ve okumalarına olanak tanır. Girilen rüya metinleri üzerinden basit bir yapay zeka entegrasyonu ile rüyaların duygu durumuna göre (kabus, neşe, karmaşa vb.) otomatik etiketlenmesi sağlanmaktadır.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gulsmilee/dream-diary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gulsmilee/dream-diary/issues"
+  },
+  "homepage": "https://github.com/Gulsmilee/dream-diary#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
