@@ -1,32 +1,39 @@
 {
-  "name": "dream-diary",
+  "name": "careertrack",
   "version": "1.0.0",
-  "description": "Bu proje, Sistem Analizi ve Tasarımı dersi kapsamında geliştirilmiş, veri odaklı web tabanlı bir CRUD uygulamasıdır. Kullanıcıların gördükleri rüyaları kaydetmelerine, güncellemelerine, silmelerine ve okumalarına olanak tanır. Girilen rüya metinleri üzerinden basit bir yapay zeka entegrasyonu ile rüyaların duygu durumuna göre (kabus, neşe, karmaşa vb.) otomatik etiketlenmesi sağlanmaktadır.",
+  "description": "Sistem Analizi ve Tasarımı dersi için geliştirilmiş, ilişkisel veritabanı (SQLite) kullanan İş ve Staj Başvuru Yöneticisi API'si.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Gulsmilee/dream-diary.git"
+    "url": "git+https://github.com/Gulsmilee/careertrack.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/Gulsmilee/dream-diary/issues"
+    "url": "https://github.com/Gulsmilee/careertrack/issues"
   },
-  "homepage": "https://github.com/Gulsmilee/dream-diary#readme",
+  "homepage": "https://github.com/Gulsmilee/careertrack#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "sqlite3": "^6.0.1"
+    "joi": "^18.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.1.1",
+    "sqlite3": "^6.0.1",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
+    "chai": "^4.5.0",
+    "mocha": "^11.7.5",
     "nodemon": "^3.1.14"
   }
 }

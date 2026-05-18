@@ -1,30 +1,36 @@
-# Rüya Günlüğü (Dream Diary) - Sistem Analizi ve Tasarımı Projesi
+# İş ve Staj Başvuru Yöneticisi (CareerTrack)
 
 ## 📖 Proje Hakkında
 
-Bu proje, Sistem Analizi ve Tasarımı dersi kapsamında geliştirilmiş, veri odaklı web tabanlı bir CRUD uygulamasıdır. Kullanıcıların gördükleri rüyaları kaydetmelerine, güncellemelerine, silmelerine ve okumalarına olanak tanır. Girilen rüya metinleri üzerinden basit bir yapay zeka entegrasyonu ile rüyaların duygu durumuna göre (kabus, neşe, karmaşa vb.) otomatik etiketlenmesi sağlanmaktadır.
+Bu proje, Sistem Analizi ve Tasarımı dersi kapsamında geliştirilmiş, veri odaklı ve ilişkisel mimariye sahip tam yığın (full-stack) bir web uygulamasıdır. Yazılım mühendisliği prensipleri ve katmanlı mimari gözetilerek tasarlanan bu sistem, staj ve iş başvurularının profesyonel bir şekilde kayıt altına alınmasını, yönetilmesini ve takip edilmesini sağlar.
 
-## 🚀 Özellikler
+Sistem, "Şirketler (Companies)" ve "Başvurular (Applications)" olmak üzere iki ana varlık (entity) üzerinden **Bire-Çok (1-to-N)** ilişki modelini kullanarak çalışmaktadır.
 
-- **Tam CRUD İşlemleri:** Rüyaları ekleme, listeleme, detay görüntüleme, güncelleme ve silme.
-- **Yapay Zeka Destekli Sınıflandırma:** Girilen rüya metninin AI yardımıyla duygu analizi ve etiketlenmesi.
-- **Filtreleme ve Arama:** Rüyaları duygu etiketlerine göre dinamik olarak filtreleme.
-- **Tek Sayfa Uygulaması (SPA):** Sayfa yenilenmeden asenkron (fetch API) veri iletişimi ile dinamik içerik yönetimi.
+## 🚀 Öne Çıkan Özellikler
+
+- **İlişkisel Veritabanı Mimarisi:** Şirket kayıtları ile bu şirketlere yapılan başvurular arasında kurulan dinamik bağlantı.
+- **Tam CRUD Desteği:** Her iki varlık (Şirket ve Başvuru) için listeleme, ekleme, güncelleme ve silme işlemleri.
+- **Katmanlı Mimari (Modülerlik):** Route, Controller ve Service katmanlarının birbirinden tamamen izole edildiği temiz kod (Clean Code) yapısı.
+- **Çift Taraflı Doğrulama (Validation):** Girdi verilerinin hem Vanilla JS arayüzünde hem de Node.js sunucusunda iş mantığı standartlarına göre doğrulanması.
+- **SPA (Tek Sayfa Uygulaması):** Sayfa yenilenmesine gerek kalmadan, tamamen asenkron (Fetch API) çalışan dinamik Vanilla JS arayüzü.
 
 ## 🛠️ Teknoloji Yığını
 
-- **Frontend:** Vanilla Javascript, HTML5, CSS3. (React, Vue veya Angular gibi frameworkler kullanılmamıştır).
-- **Backend:** Node.js, Express.
-- **Veri Katmanı:** SQLite (DBMS serbesttir).
-- **API Katmanı:** RESTful mimari, JSON tabanlı istek/cevap formatı.
-- **Dokümantasyon:** Swagger UI.
+- **Frontend:** Vanilla Javascript, HTML5, CSS3.
+- **Backend:** Node.js, Express.js.
+- **Veri Katmanı:** SQLite (Taşınabilirlik ve kolay yeniden üretilebilirlik için harici kurulum gerektirmeyen dosya tabanlı DBMS tercih edilmiştir).
+- **API Mimarisi:** RESTful API standartları (JSON formatında iletişim).
+- **Dokümantasyon:** Swagger UI (`swagger-ui-express`).
+- **Test ve Güvenlik:** İş mantığı servisleri için Unit Test yapısı ve güvenlik/kalite denetimi için linter entegrasyonu.
 
-## ⚙️ Kurulum Adımları
+## ⚙️ Sistem Kurulumu ve Yeniden Üretilebilirlik
 
-Projeyi kendi yerel ortamınızda (localhost) çalıştırarak yeniden üretmek için aşağıdaki adımları izleyin:
+Projenin başka bir yerel ortamda eksiksiz olarak ayağa kaldırılabilmesi (reproducibility) için veritabanı doğrudan proje içine entegre edilmiştir. Herhangi bir ekstra SQL sunucusu kurmanıza gerek yoktur.
+
+Aşağıdaki adımları sırasıyla terminalinizde çalıştırarak projeyi başlatabilirsiniz:
 
 1. **Depoyu Klonlayın:**
    ```bash
-   git clone [https://github.com/](https://github.com/)gulsmilee/ruya-gunlugu.git
-   cd ruya-gunlugu
+   git clone [https://github.com/Gulsmilee/careertrack.git](https://github.com/Gulsmilee/careertrack.git)
+   cd careertrack
    ```

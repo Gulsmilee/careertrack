@@ -1,0 +1,204 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CareerTrack API",
+    "version": "1.0.0",
+    "description": "Kullanıcı izolasyonlu, JWT korumalı İş ve Staj Başvuru Yöneticisi"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Yerel Geliştirme Sunucusu"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "summary": "Sisteme yeni kullanıcı kaydeder (Joi Korumalı)",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Kayıt başarılı" } }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Kullanıcı girişi yapar ve JWT (Token) döner",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Giriş başarılı ve Token üretildi" }
+        }
+      }
+    },
+    "/api/companies": {
+      "get": {
+        "summary": "Sadece giriş yapan kullanıcının şirketlerini listeler",
+        "tags": ["Şirketler"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Başarılı" } }
+      },
+      "post": {
+        "summary": "Kullanıcı adına yeni şirket ekler (Max 100 Karakter)",
+        "tags": ["Şirketler"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "industry": { "type": "string" },
+                  "website": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Başarıyla oluşturuldu" } }
+      }
+    },
+    "/api/companies/{id}": {
+      "put": {
+        "summary": "Şirket bilgilerini günceller",
+        "tags": ["Şirketler"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "industry": { "type": "string" },
+                  "website": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Güncellendi" } }
+      },
+      "delete": {
+        "summary": "Şirketi ve bağlı başvuruları siler",
+        "tags": ["Şirketler"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "Silindi" } }
+      }
+    },
+    "/api/applications": {
+      "get": {
+        "summary": "Sadece giriş yapan kullanıcının başvurularını listeler",
+        "tags": ["Başvurular"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": { "200": { "description": "Başarılı" } }
+      },
+      "post": {
+        "summary": "Kullanıcı adına yeni başvuru ekler",
+        "tags": ["Başvurular"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "company_id": { "type": "integer" },
+                  "position": { "type": "string" },
+                  "status": { "type": "string" },
+                  "application_date": { "type": "string" },
+                  "interview_date": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Başarıyla oluşturuldu" } }
+      }
+    },
+    "/api/applications/{id}/upload-cv": {
+      "post": {
+        "summary": "Başvuruya CV (Sadece PDF, Max 2MB) yükler",
+        "tags": ["Başvurular"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cv": { "type": "string", "format": "binary" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "CV yüklendi" } }
+      }
+    }
+  }
+}

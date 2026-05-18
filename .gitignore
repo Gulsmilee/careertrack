@@ -1,2 +1,16 @@
+# Node modülleri (Bunu yüklemeye gerek yok, npm install ile kurulur)
 node_modules/
-.env 
+
+# Çevresel değişkenler ve gizli anahtarlar
+.env
+
+# Veritabanı dosyası (Herkesin kendi lokalinde oluşmalı)
+*.db
+careertrack.db
+
+# Mac sistem dosyaları (Eğer Mac kullanılıyorsa)
+.DS_Store
+
+# Yüklenen CV dosyaları (Boş klasör kalsın ama içindeki PDF'ler gitmesin)
+uploads/*
+!uploads/.gitkeep
