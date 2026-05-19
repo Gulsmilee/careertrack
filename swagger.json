@@ -66,6 +66,30 @@
         }
       }
     },
+    "/api/auth/reset-password": {
+      "post": {
+        "summary": "Kullanıcı şifresini sıfırlar",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string" },
+                  "email": { "type": "string" },
+                  "newPassword": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Şifre başarıyla sıfırlandı" }
+        }
+      }
+    },
     "/api/companies": {
       "get": {
         "summary": "Sadece giriş yapan kullanıcının şirketlerini listeler",
@@ -161,14 +185,56 @@
                   "company_id": { "type": "integer" },
                   "position": { "type": "string" },
                   "status": { "type": "string" },
-                  "application_date": { "type": "string" },
-                  "interview_date": { "type": "string" }
+                  "application_date": { "type": "string" }
                 }
               }
             }
           }
         },
         "responses": { "201": { "description": "Başarıyla oluşturuldu" } }
+      }
+    },
+    "/api/applications/{id}": {
+      "delete": {
+        "summary": "Seçilen başvuruyu siler",
+        "tags": ["Başvurular"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "Başvuru silindi" } }
+      },
+      "put": {
+        "summary": "Başvurunun durumunu (Mülakat, Kabul vb.) günceller",
+        "tags": ["Başvurular"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": { "200": { "description": "Başvuru güncellendi" } }
       }
     },
     "/api/applications/{id}/upload-cv": {
@@ -197,7 +263,7 @@
             }
           }
         },
-        "responses": { "200": { "description": "CV yüklendi" } }
+        "responses": { "200": { "description": "CV başarıyla yüklendi" } }
       }
     }
   }

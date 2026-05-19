@@ -576,7 +576,7 @@ if (canvas) {
 }
 
 // ==========================================
-// 7. ARAMA VE FİLTRELEME ÖZELLİĞİ (Ekstra Puan)
+// 7. ARAMA VE FİLTRELEME ÖZELLİĞİ
 // ==========================================
 const searchAppInput = document.getElementById("search-app");
 
@@ -605,5 +605,105 @@ if (searchAppInput) {
         row.style.display = "none"; // Satırı gizle
       }
     });
+  });
+}
+
+// ==========================================
+// 8. İSTATİSTİK HESAPLAMA VE EXCEL İNDİRME
+// ==========================================
+
+// İstatistikleri Güncelle
+function updateStats(applications) {
+  const total = applications.length;
+  const interviews = applications.filter(
+    (app) => app.status === "Mülakat",
+  ).length;
+  const rejected = applications.filter((app) => app.status === "Red").length;
+
+  const statTotal = document.getElementById("stat-total");
+  const statInterview = document.getElementById("stat-interview");
+  const statRejected = document.getElementById("stat-rejected");
+
+  if (statTotal) statTotal.textContent = total;
+  if (statInterview) statInterview.textContent = interviews;
+  if (statRejected) statRejected.textContent = rejected;
+}
+
+// Orijinal renderApplications fonksiyonunu ezerek istatistikleri de çalıştıralım
+const oldRenderApplications = renderApplications;
+renderApplications = function (applications) {
+  oldRenderApplications(applications);
+  updateStats(applications);
+};
+
+// Tabloyu CSV (Excel) Formatında İndirme
+window.exportTableToCSV = function (filename) {
+  const table = document.querySelector(".table");
+  let csv = [];
+  const rows = table.querySelectorAll("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+    let row = [],
+      cols = rows[i].querySelectorAll("td, th");
+    // Son iki sütunu (CV ve Aksiyon) Excel'e almamak için length - 2 yapıyoruz
+    let maxCol = i === 0 ? cols.length - 2 : cols.length - 2;
+
+    for (let j = 0; j < maxCol; j++) {
+      // Excel'de Türkçe karakter sorunu olmasın diye temizliyoruz
+      row.push('"' + cols[j].innerText.replace(/"/g, '""') + '"');
+    }
+    if (row.length > 0) csv.push(row.join(","));
+  }
+
+  const csvFile = new Blob(["\uFEFF" + csv.join("\n")], {
+    type: "text/csv;charset=utf-8;",
+  });
+  const downloadLink = document.createElement("a");
+  downloadLink.download = filename;
+  downloadLink.href = window.URL.createObjectURL(csvFile);
+  downloadLink.style.display = "none";
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+};
+
+// --- AYDINLIK / KARANLIK TEMA GEÇİŞİ MANTIĞI ---
+const themeToggleBtn = document.getElementById("theme-toggle");
+const themeIcon = document.getElementById("theme-icon");
+
+// Sayfa yüklendiğinde kullanıcının tarayıcı hafızasındaki (localStorage) son seçimini hatırla
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light-mode");
+  if (themeIcon) themeIcon.classList.replace("bi-sun-fill", "bi-moon-fill");
+  if (themeToggleBtn) {
+    themeToggleBtn.classList.replace(
+      "btn-outline-secondary",
+      "btn-outline-dark",
+    );
+    themeToggleBtn.style.color = "black";
+  }
+}
+
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    const isLight = document.body.classList.contains("light-mode");
+
+    if (isLight) {
+      if (themeIcon) themeIcon.classList.replace("bi-sun-fill", "bi-moon-fill");
+      themeToggleBtn.classList.replace(
+        "btn-outline-secondary",
+        "btn-outline-dark",
+      );
+      themeToggleBtn.style.color = "black";
+      localStorage.setItem("theme", "light"); // Seçimi hafızaya kaydet
+    } else {
+      if (themeIcon) themeIcon.classList.replace("bi-moon-fill", "bi-sun-fill");
+      themeToggleBtn.classList.replace(
+        "btn-outline-dark",
+        "btn-outline-secondary",
+      );
+      themeToggleBtn.style.color = "white";
+      localStorage.setItem("theme", "dark"); // Seçimi hafızaya kaydet
+    }
   });
 }
